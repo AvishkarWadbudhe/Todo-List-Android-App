@@ -10,6 +10,7 @@
     android:paddingLeft="20dp"
     tools:context=".MainActivity">
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -33,14 +34,13 @@
             tools:ignore="MissingPrefix" />
 
 
-
     </LinearLayout>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="right|center"
             android:background="@drawable/ic_history"
-            android:id="@+id/calendar"/>
+            android:id="@+id/btnHistory"/>
     </FrameLayout>
 
     <LinearLayout
@@ -54,12 +54,25 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/newTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/ic_add"
+                android:backgroundTint="@color/colorAccent"
+                app:tint="@color/white"
+
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/taskRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-              />
+                android:layout_height="match_parent" />
 
         </FrameLayout>
     </LinearLayout>

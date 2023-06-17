@@ -1,14 +1,16 @@
-package com.project.todoapp;
+package com.project.todoapp.TaskActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class CreateTasks extends AppCompatActivity {
+import com.project.todoapp.R;
+
+public class Edit_Task extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_tasks);
+        setContentView(R.layout.activity_edit_task);
     }
 }
