@@ -1,6 +1,8 @@
 package com.project.todoapp.TaskActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -10,11 +12,16 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import com.project.todoapp.Model.DataModel;
+import com.project.todoapp.ViewModel.Task_viewModel;
 import com.project.todoapp.databinding.ActivityCreateTasksBinding;
 import com.project.todoapp.databinding.ActivityMainBinding;
 
+import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class CreateTasks extends AppCompatActivity {
@@ -23,13 +30,16 @@ public class CreateTasks extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
 
+    private Task_viewModel taskViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCreateTasksBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        taskViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))
+        .get(Task_viewModel.class);
         setListener();
 
     }
@@ -55,9 +65,21 @@ public class CreateTasks extends AppCompatActivity {
             return false;
         });
 
-        binding.btnAddTask.setOnClickListener(v -> {
 
-        });
+            binding.btnAddTask.setOnClickListener(v -> {
+                if( validateFields()) {
+                    try {
+                        createTask();
+                        showToast("Task Created");
+                        onBackPressed();
+                    } catch (ParseException e) {
+                      showToast("Falied to create task");
+                    }
+                }
+
+            });
+
+
 
 
     }
@@ -101,7 +123,19 @@ public class CreateTasks extends AppCompatActivity {
         // Show the TimePickerDialog
         timePickerDialog.show();
     }
+private void createTask() throws ParseException {
+    String title =binding.addTaskTitle.getText().toString();
+    String desc = binding.addTaskDescription.getText().toString();
 
+    String date = binding.taskDate.getText().toString();
+
+
+    String time = binding.taskTime.getText().toString();
+
+    DataModel dataModel = new DataModel(title,desc,date,time,false);
+    taskViewModel.insert(dataModel);
+
+}
 
 
     public boolean validateFields() {

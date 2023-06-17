@@ -13,21 +13,25 @@ public class DataModel {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 
         private String title;
         private String description;
-        private Date dueDate;
-        private Date dueTime;
+        private String Date;
+        private String Time;
         private boolean isCompleted;
 
-        public DataModel(String title, String description, Date dueDate, Date dueTime, boolean isCompleted) {
+        public DataModel(String title, String description, String Date, String Time, boolean isCompleted) {
 
             this.title = title;
             this.description = description;
-            this.dueDate = dueDate;
-            this.dueTime = dueTime;
+            this.Date = Date;
+            this.Time = Time;
             this.isCompleted = isCompleted;
         }
 
@@ -41,16 +45,16 @@ public class DataModel {
             return description;
         }
 
-        public Date getDueDate() {
-            return dueDate;
+        public String getDate() {
+            return Date;
         }
 
         public boolean isCompleted() {
             return isCompleted;
         }
 
-    public Date getDueTime() {
-        return dueTime;
+    public String getTime() {
+        return Time;
     }
     public void setTitle(String title) {
         this.title = title;
@@ -60,12 +64,12 @@ public class DataModel {
         this.description = description;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDate(String Date) {
+        this.Date = Date;
     }
 
-    public void setDueTime(Date dueTime) {
-        this.dueTime = dueTime;
+    public void setTime(String Time) {
+        this.Time = Time;
     }
 
     public void setCompleted(boolean completed) {
