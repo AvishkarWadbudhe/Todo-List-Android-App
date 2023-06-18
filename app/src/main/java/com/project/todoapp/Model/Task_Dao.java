@@ -22,10 +22,10 @@ public interface Task_Dao {
     @Delete
     public void deleteTask(DataModel data);
 
-    @Query("SELECT * FROM my_tasks")
+    @Query("SELECT * FROM my_tasks WHERE isCompleted=FALSE")
     public LiveData<List<DataModel>> showTask();
 
-    @Query("SELECT * FROM my_tasks")
+    @Query("SELECT * FROM my_tasks WHERE isCompleted=TRUE")
     public LiveData<List<DataModel>> showCompletedTask();
 
 

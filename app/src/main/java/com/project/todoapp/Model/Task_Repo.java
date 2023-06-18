@@ -12,11 +12,13 @@ import java.util.List;
 public class Task_Repo {
     private Task_Dao task_dao;
     private LiveData<List<DataModel>> taskList;
+    private LiveData<List<DataModel>> completedTask;
 
     public Task_Repo(Application application) {
         Tasks_Database tasks_database=Tasks_Database.getInstance(application);
         task_dao = tasks_database.task_dao();
         taskList = task_dao.showTask();
+        completedTask =task_dao.showCompletedTask();
 
     }
 public void insertData(DataModel dataModel){new InsertTask(task_dao).execute(dataModel);}
@@ -27,6 +29,11 @@ public void insertData(DataModel dataModel){new InsertTask(task_dao).execute(dat
     {
         return taskList;
     }
+    public LiveData<List<DataModel>> showCompletedTask()
+    {
+        return completedTask;
+    }
+
     private static class InsertTask extends AsyncTask<DataModel,Void,Void>{
 
         public InsertTask(Task_Dao task_dao) {

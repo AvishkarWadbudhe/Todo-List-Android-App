@@ -14,16 +14,19 @@ import java.util.List;
 public class Task_viewModel extends AndroidViewModel {
     private Task_Repo taskRepo;
     private LiveData<List<DataModel>> taskList;
+    private LiveData<List<DataModel>> completedTaskList;
 
     public Task_viewModel(@NonNull Application application) {
         super(application);
         taskRepo = new Task_Repo(application);
         taskList = taskRepo.showTask();
+        completedTaskList = taskRepo.showCompletedTask();
     }
     public void insert(DataModel dataModel){
         taskRepo.insertData(dataModel);
     }
     public void update(DataModel dataModel){
+        dataModel.setCompleted(true); // Update the isCompleted value
         taskRepo.updateData(dataModel);
     }
     public void delete(DataModel dataModel){
@@ -33,4 +36,9 @@ public class Task_viewModel extends AndroidViewModel {
     {
         return taskList;
     }
+    public LiveData<List<DataModel>> getCompletedTaskList()
+    {
+        return completedTaskList;
+    }
+
 }

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="3dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:orientation="vertical">
@@ -33,11 +33,7 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:alpha="0.5"
-            android:background="@android:color/black"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,37 +64,67 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Full House is the Grand prize in any Tambola game played. It means all 15 Numbers of a ticket are cut, striked out"
-                android:singleLine="true"
-                android:alpha="0.5"
-                android:id="@+id/description"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"/>
 
-            <TextView
+                android:maxLines="2"
+
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="wednesday 1:45 "
-                android:singleLine="true"
+                android:layout_height="wrap_content">
 
-                android:id="@+id/time"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"/>
+                <TextView
+                    android:id="@+id/dueDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Due Date: "
+                    android:alpha="0.5"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/completed"
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="17-june-2023"
+                    android:singleLine="true"
+                    android:textStyle="bold|italic"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:layout_toEndOf="@id/dueDateLabel" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Completed"
-                android:singleLine="true"
-                android:textStyle="italic"
-                android:textSize="15sp"
-                android:textColor="@android:color/black"
+                android:layout_height="wrap_content">
 
-                android:layout_gravity="end" />
+                <TextView
+                    android:id="@+id/dueTimeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Due Time: "
+                    android:alpha="0.5"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
 
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="14:14"
+                    android:singleLine="true"
+                    android:textStyle="bold|italic"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:layout_toEndOf="@id/dueTimeLabel" />
+
+            </RelativeLayout>
 
 
 
