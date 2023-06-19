@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomSnackbar" parent="Widget.Design.Snackbar">
+        <item name="android:background">@drawable/snackbar_background</item>
+        <item name="android:radius">20dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+</resources>

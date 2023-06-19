@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="Add a task"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+       />
+
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:background="@drawable/btn_border"
+        android:padding="10dp"
+
+        android:hint="Task Title"
+        android:alpha="0.5"
+        android:textColorHint="@color/black"/>
+
+
+    <EditText
+        android:textSize="14sp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:background="@drawable/btn_border"
+        android:padding="10dp"
+        android:id="@+id/editTextDescription"
+        android:alpha="0.5"
+        android:textColorHint="@color/black"
+        android:hint="Task Description" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha="0.5"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:background="@drawable/btn_border"
+            android:hint="Due Date" />
+        <View
+            android:layout_width="16dp"
+            android:layout_height="0dp" />
+
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha="0.5"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:background="@drawable/btn_border"
+            android:hint="Due Time" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal">
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_background"
+
+        android:text="Create" />
+        <View
+            android:layout_width="16dp"
+            android:layout_height="0dp" />
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_background"
+
+        android:text="Cancel" />
+    </LinearLayout>
+</LinearLayout>
