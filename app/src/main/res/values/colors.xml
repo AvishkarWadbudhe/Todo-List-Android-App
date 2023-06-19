@@ -11,4 +11,6 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#4885ed</color>
+    <color name="colorRed">#EB0505</color>
+    <color name="green">#38E82B</color>
 </resources>

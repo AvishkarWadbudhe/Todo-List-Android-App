@@ -1,27 +1,25 @@
 package com.project.todoapp;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-
 import com.project.todoapp.Adapter.Tasks_Adapter;
-import com.project.todoapp.Model.DataModel;
 import com.project.todoapp.TaskActivity.CreateTasks;
 import com.project.todoapp.TaskActivity.Task_History;
 import com.project.todoapp.ViewModel.Task_viewModel;
 import com.project.todoapp.databinding.ActivityMainBinding;
 
-import java.util.List;
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        taskViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))
+        taskViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))
                 .get(Task_viewModel.class);
 
         setListener();
@@ -50,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
         //history
         binding.btnHistory.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Task_History.class)));
 
-
-
-
-
     }
     private void setRecycleView()
     {
@@ -61,15 +55,7 @@ public class MainActivity extends AppCompatActivity {
         binding.taskRecycler.setLayoutManager(new LinearLayoutManager(this));
         binding.taskRecycler.setHasFixedSize(true);
         binding.taskRecycler.setAdapter(tasksAdapter);
-
-
-
-        taskViewModel.getTaskList().observe(this, new Observer<List<DataModel>>() {
-            @Override
-            public void onChanged(List<DataModel> dataModels) {
-                tasksAdapter.submitList(dataModels);
-            }
-        });
+        taskViewModel.getTaskList().observe(this, dataModels -> tasksAdapter.submitList(dataModels));
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -81,22 +67,29 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Is Task Completed?")
                         .setMessage("Did you completed the task?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                taskViewModel.update(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
-
-
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                tasksAdapter.notifyItemChanged(viewHolder.getAbsoluteAdapterPosition());
-                            }
-                        })
+                        .setPositiveButton("Yes", (dialog, which) -> taskViewModel.update(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition())))
+                        .setNegativeButton("No", (dialog, which) -> tasksAdapter.notifyItemChanged(viewHolder.getAbsoluteAdapterPosition()))
                         .show();
             }
+
+            public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.green))
+                        .addSwipeRightActionIcon(R.drawable.ic_complete)
+                        .addSwipeRightLabel("Completed").setSwipeRightLabelColor(ContextCompat.getColor(MainActivity.this,R.color.white))
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.green))
+                        .addSwipeLeftActionIcon(R.drawable.ic_complete)
+                        .addSwipeLeftLabel("Completed").setSwipeLeftLabelColor(ContextCompat.getColor(MainActivity.this,R.color.white))
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+
+
+
+
         }).attachToRecyclerView(binding.taskRecycler);
     }
 

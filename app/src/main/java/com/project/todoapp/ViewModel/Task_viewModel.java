@@ -12,9 +12,9 @@ import com.project.todoapp.Model.Task_Repo;
 import java.util.List;
 
 public class Task_viewModel extends AndroidViewModel {
-    private Task_Repo taskRepo;
-    private LiveData<List<DataModel>> taskList;
-    private LiveData<List<DataModel>> completedTaskList;
+    private final Task_Repo taskRepo;
+    private final LiveData<List<DataModel>> taskList;
+    private final LiveData<List<DataModel>> completedTaskList;
 
     public Task_viewModel(@NonNull Application application) {
         super(application);

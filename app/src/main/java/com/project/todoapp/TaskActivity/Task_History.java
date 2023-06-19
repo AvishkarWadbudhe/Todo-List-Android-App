@@ -1,26 +1,24 @@
 package com.project.todoapp.TaskActivity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.todoapp.Adapter.Task_History_Adapter;
-import com.project.todoapp.Adapter.Tasks_Adapter;
-import com.project.todoapp.Model.DataModel;
+import com.project.todoapp.R;
 import com.project.todoapp.ViewModel.Task_viewModel;
 import com.project.todoapp.databinding.ActivityTaskHistoryBinding;
 
-import java.util.List;
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class Task_History extends AppCompatActivity {
     ActivityTaskHistoryBinding binding;
@@ -34,7 +32,7 @@ public class Task_History extends AppCompatActivity {
         binding = ActivityTaskHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        taskViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))
+        taskViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))
                 .get(Task_viewModel.class);
 
         setListener();
@@ -54,12 +52,7 @@ public class Task_History extends AppCompatActivity {
 
 
 
-        taskViewModel.getCompletedTaskList().observe(this, new Observer<List<DataModel>>() {
-            @Override
-            public void onChanged(List<DataModel> dataModels) {
-                tasksAdapter.submitList(dataModels);
-            }
-        });
+        taskViewModel.getCompletedTaskList().observe(this, dataModels -> tasksAdapter.submitList(dataModels));
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -71,22 +64,34 @@ public class Task_History extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Task_History.this);
                 builder.setTitle("Confirmation")
                         .setMessage("Are you sure you want to delete this task?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                        .setPositiveButton("Delete", (dialog, which) -> {
 
-                                taskViewModel.delete(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
-                            }
+                            taskViewModel.delete(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
+                            showToast("Task Deleted");
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                tasksAdapter.notifyItemChanged(viewHolder.getAbsoluteAdapterPosition());
-                            }
-                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> tasksAdapter.notifyItemChanged(viewHolder.getAbsoluteAdapterPosition()))
                         .show();
+
             }
+            public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(Task_History.this,R.color.colorRed))
+                        .addSwipeRightActionIcon(R.drawable.ic_delete)
+                        .addSwipeRightLabel("Delete").setSwipeRightLabelColor(ContextCompat.getColor(Task_History.this,R.color.white))
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(Task_History.this,R.color.colorRed))
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete)
+                        .addSwipeLeftLabel("Delete").setSwipeLeftLabelColor(ContextCompat.getColor(Task_History.this,R.color.white))
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+
+
         }).attachToRecyclerView(binding.taskRecycler);
+
+
     }
 
 
