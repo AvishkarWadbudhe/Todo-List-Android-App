@@ -14,19 +14,21 @@ import java.util.List;
 public interface Task_Dao {
 
     @Insert
-    public void insertTask(DataModel data);
+    void insertTask(DataModel data);
 
     @Update
-    public void updateTask(DataModel data);
+    void updateTask(DataModel data);
 
     @Delete
-    public void deleteTask(DataModel data);
+    void deleteTask(DataModel data);
 
     @Query("SELECT * FROM my_tasks WHERE isCompleted=FALSE")
-    public LiveData<List<DataModel>> showTask();
+    LiveData<List<DataModel>> showTask();
 
     @Query("SELECT * FROM my_tasks WHERE isCompleted=TRUE")
-    public LiveData<List<DataModel>> showCompletedTask();
+    LiveData<List<DataModel>> showCompletedTask();
+    @Query("DELETE FROM my_tasks")
+    void deleteAllTasks();
 
 
 }

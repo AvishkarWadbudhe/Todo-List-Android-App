@@ -27,6 +27,7 @@ public class Task_viewModel extends AndroidViewModel {
     }
     public void update(DataModel dataModel){
         dataModel.setCompleted(true); // Update the isCompleted value
+
         taskRepo.updateData(dataModel);
     }
     public void delete(DataModel dataModel){
@@ -40,5 +41,6 @@ public class Task_viewModel extends AndroidViewModel {
     {
         return completedTaskList;
     }
+
 
 }

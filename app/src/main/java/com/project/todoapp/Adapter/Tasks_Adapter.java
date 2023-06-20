@@ -3,12 +3,14 @@ package com.project.todoapp.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.todoapp.MainActivity;
 import com.project.todoapp.Model.DataModel;
 import com.project.todoapp.R;
 import com.project.todoapp.databinding.ItemTaskContainerBinding;
@@ -28,7 +30,7 @@ public class Tasks_Adapter extends ListAdapter<DataModel,Tasks_Adapter.ViewHolde
         @Override
         public boolean areContentsTheSame(@NonNull DataModel oldItem, @NonNull DataModel newItem) {
             return oldItem.getTitle().equals(newItem.getTitle())&& oldItem.getDescription().equals(newItem.getDescription())
-                    &&oldItem.getDate().equals(newItem.getDate())&&oldItem.getTime().equals(newItem.getTime());
+                  ;
         }
     };
 
@@ -45,8 +47,6 @@ public class Tasks_Adapter extends ListAdapter<DataModel,Tasks_Adapter.ViewHolde
         DataModel dataModel = getItem(position);
         holder.binding.title.setText(dataModel.getTitle());
         holder.binding.description.setText(dataModel.getDescription());
-        holder.binding.date.setText(dataModel.getDate());
-        holder.binding.time.setText(dataModel.getTime());
 
     }
 

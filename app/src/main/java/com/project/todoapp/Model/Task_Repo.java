@@ -10,9 +10,9 @@ import com.project.todoapp.Database.Tasks_Database;
 import java.util.List;
 
 public class Task_Repo {
-    private Task_Dao task_dao;
-    private LiveData<List<DataModel>> taskList;
-    private LiveData<List<DataModel>> completedTask;
+    private final Task_Dao task_dao;
+    private final LiveData<List<DataModel>> taskList;
+    private final LiveData<List<DataModel>> completedTask;
 
     public Task_Repo(Application application) {
         Tasks_Database tasks_database=Tasks_Database.getInstance(application);
@@ -40,7 +40,7 @@ public void insertData(DataModel dataModel){new InsertTask(task_dao).execute(dat
             this.task_dao = task_dao;
         }
 
-        private Task_Dao task_dao;
+        private final Task_Dao task_dao;
         @Override
         protected Void doInBackground(DataModel... dataModels) {
             task_dao.insertTask(dataModels[0]);
@@ -53,7 +53,7 @@ public void insertData(DataModel dataModel){new InsertTask(task_dao).execute(dat
             this.task_dao = task_dao;
         }
 
-        private Task_Dao task_dao;
+        private final Task_Dao task_dao;
         @Override
         protected Void doInBackground(DataModel... dataModels) {
             task_dao.updateTask(dataModels[0]);
@@ -66,7 +66,7 @@ public void insertData(DataModel dataModel){new InsertTask(task_dao).execute(dat
             this.task_dao = task_dao;
         }
 
-        private Task_Dao task_dao;
+        private final Task_Dao task_dao;
         @Override
         protected Void doInBackground(DataModel... dataModels) {
             task_dao.deleteTask(dataModels[0]);

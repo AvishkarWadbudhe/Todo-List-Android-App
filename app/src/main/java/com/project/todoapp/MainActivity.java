@@ -2,15 +2,17 @@ package com.project.todoapp;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,9 +32,6 @@ import com.project.todoapp.databinding.ActivityMainBinding;
 import com.project.todoapp.databinding.CreateTaskDialogBoxBinding;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -46,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertDialog alertDialog;
     private CreateTaskDialogBoxBinding dialogBinding;
+    private String[] options = {"Food", "Study", "Work"};
+
 
 
     @Override
@@ -74,13 +75,14 @@ public class MainActivity extends AppCompatActivity {
         //history
         binding.btnHistory.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Task_History.class)));
 
+
     }
     private void setRecycleView()
     {
 
-        binding.taskRecycler.setLayoutManager(new LinearLayoutManager(this));
-        binding.taskRecycler.setHasFixedSize(true);
-        binding.taskRecycler.setAdapter(tasksAdapter);
+        binding.recyclerViewIncomplete.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerViewIncomplete.setHasFixedSize(true);
+        binding.recyclerViewIncomplete.setAdapter(tasksAdapter);
         taskViewModel.getTaskList().observe(this, dataModels -> tasksAdapter.submitList(dataModels));
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
             @Override
@@ -90,18 +92,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Is Task Completed?")
-                        .setMessage("Did you completed the task?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
-                            taskViewModel.update(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
-                            Custom_SnackBar.showSnackbar(MainActivity.this, findViewById(android.R.id.content), "Task completed");
-
-
-                        })
-                        .setNegativeButton("No", (dialog, which) -> tasksAdapter.notifyItemChanged(viewHolder.getAbsoluteAdapterPosition()))
-                        .show();
+                if (direction == ItemTouchHelper.RIGHT) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Is Task Completed?")
+                            .setMessage("Did you complete the task?")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                taskViewModel.update(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
+                                Custom_SnackBar.showSnackbar(MainActivity.this, findViewById(android.R.id.content), "Task completed");
+                            })
+                            .setNegativeButton("No", (dialog, which) -> tasksAdapter.notifyItemChanged(viewHolder.getAbsoluteAdapterPosition()))
+                            .show();
+                } else if (direction == ItemTouchHelper.LEFT) {
+                    // Delete the task
+                    taskViewModel.delete(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
+                    Custom_SnackBar.showSnackbar(MainActivity.this, findViewById(android.R.id.content), "Task deleted");
+                }
             }
+
 
             public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
 
@@ -109,65 +116,45 @@ public class MainActivity extends AppCompatActivity {
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.green                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ))
                         .addSwipeRightActionIcon(R.drawable.ic_complete)
                         .addSwipeRightLabel("Completed").setSwipeRightLabelColor(ContextCompat.getColor(MainActivity.this,R.color.white))
-                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.green))
-                        .addSwipeLeftActionIcon(R.drawable.ic_complete)
-                        .addSwipeLeftLabel("Completed").setSwipeLeftLabelColor(ContextCompat.getColor(MainActivity.this,R.color.white))
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.colorRed))
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete)
+                        .addSwipeLeftLabel("Deleted").setSwipeLeftLabelColor(ContextCompat.getColor(MainActivity.this,R.color.white))
                         .create()
                         .decorate();
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
 
+        }).attachToRecyclerView(binding.recyclerViewIncomplete);
 
 
-
-        }).attachToRecyclerView(binding.taskRecycler);
     }
+
     private void openDialogBox() {
         // Create the dialog box
         dialogBinding = CreateTaskDialogBoxBinding.inflate(LayoutInflater.from(MainActivity.this));
         View dialogView = dialogBinding.getRoot();
 
+
         // Create the dialog box
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setView(dialogView);
 
-        dialogBinding.editTextDate.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                v.requestFocus(); // Request focus on the EditText
-                showDatePickerDialog();
-            }
-            return false;
-        });
-//
-        dialogBinding.editTextTime.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                v.requestFocus(); // Request focus on the EditText
-                showTimePickerDialog();
-            }
-            return false;
-        });
-
-
-
         EditText titleEditText = dialogBinding.editTextTitle;
-        EditText descriptionEditText = dialogBinding.editTextDescription;
-        EditText dateEditText = dialogBinding.editTextDate;
-        EditText timeEditText = dialogBinding.editTextTime;
+        EditText descriptionEditText = dialogBinding.editTextRelated;
         Button createButton = dialogBinding.btnCreate;
         Button cancelButton = dialogBinding.btnCancel;
 
         // Set click listener for the create button
         createButton.setOnClickListener(v -> {
             // Validate the fields
-            if (validateFields(titleEditText, descriptionEditText, dateEditText, timeEditText)) {
+            if (validateFields(titleEditText, descriptionEditText)) {
                 try {
                     // Create the task
                     createTask(
                             titleEditText.getText().toString(),
-                            descriptionEditText.getText().toString(),
-                            dateEditText.getText().toString(),
-                            timeEditText.getText().toString()
+                            descriptionEditText.getText().toString()
+
                     );
                     showToast("Task Created");
                     // Close the dialog box
@@ -189,23 +176,17 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void createTask(String title, String description, String date, String time) throws ParseException {
-        DataModel dataModel = new DataModel(title, description, date, time, false);
+    private void createTask(String title, String description) throws ParseException {
+        DataModel dataModel = new DataModel(title, description, false);
         taskViewModel.insert(dataModel);
     }
 
-    private boolean validateFields(EditText titleEditText, EditText descriptionEditText, EditText dateEditText, EditText timeEditText) {
+    private boolean validateFields(EditText titleEditText, EditText descriptionEditText) {
         if (titleEditText.getText().toString().isEmpty()) {
             showToast("Enter Task Title");
             return false;
         } else if (descriptionEditText.getText().toString().isEmpty()) {
             showToast("Enter Description");
-            return false;
-        } else if (dateEditText.getText().toString().isEmpty()) {
-            showToast("Enter Date");
-            return false;
-        } else if (timeEditText.getText().toString().isEmpty()) {
-            showToast("Enter Time");
             return false;
         } else {
             return true;
@@ -214,45 +195,4 @@ public class MainActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
     }
-    private void showDatePickerDialog() {
-        // Get current date
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // Create a DatePickerDialog
-        datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
-            // Format the chosen date
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(selectedYear, selectedMonth, selectedDay);
-            String formattedDate = dateFormat.format(selectedDate.getTime());
-
-            // Set the chosen date in the EditText
-            dialogBinding.editTextDate.setText(formattedDate);
-        }, year, month, day);
-
-        // Show the DatePickerDialog
-        datePickerDialog.show();
-    }
-    private void showTimePickerDialog() {
-        // Get current time
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        // Create a TimePickerDialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, selectedHour, selectedMinute) -> {
-            // Format the chosen time
-            String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute);
-
-            // Set the chosen time in the EditText
-            dialogBinding.editTextTime.setText(formattedTime);
-        }, hour, minute, false);
-
-        // Show the TimePickerDialog
-        timePickerDialog.show();
-    }
-
 }

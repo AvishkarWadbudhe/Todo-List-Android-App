@@ -28,8 +28,7 @@ public class Task_History_Adapter extends ListAdapter<DataModel,Tasks_Adapter.Vi
 
         @Override
         public boolean areContentsTheSame(@NonNull DataModel oldItem, @NonNull DataModel newItem) {
-            return oldItem.getTitle().equals(newItem.getTitle())&& oldItem.getDescription().equals(newItem.getDescription())
-                    &&oldItem.getDate().equals(newItem.getDate())&&oldItem.getTime().equals(newItem.getTime());
+            return oldItem.getTitle().equals(newItem.getTitle())&& oldItem.getDescription().equals(newItem.getDescription());
         }
     };
     @NonNull
@@ -44,8 +43,7 @@ public class Task_History_Adapter extends ListAdapter<DataModel,Tasks_Adapter.Vi
         DataModel dataModel = getItem(position);
         holder.binding.title.setText(dataModel.getTitle());
         holder.binding.description.setText(dataModel.getDescription());
-        holder.binding.date.setText(dataModel.getDate());
-        holder.binding.time.setText(dataModel.getTime());
+
     }
     public DataModel getTask(int position)
     {
