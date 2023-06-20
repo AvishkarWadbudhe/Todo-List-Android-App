@@ -32,6 +32,9 @@ import com.project.todoapp.databinding.ActivityMainBinding;
 import com.project.todoapp.databinding.CreateTaskDialogBoxBinding;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -75,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
         //history
         binding.btnHistory.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Task_History.class)));
 
+        Date currentDate = new Date();
+
+        // Format the date as "June 20, 2023"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(currentDate);
+
+        // Set the formatted date in the TextView
+        binding.dateTextView.setText(formattedDate);
 
     }
     private void setRecycleView()
