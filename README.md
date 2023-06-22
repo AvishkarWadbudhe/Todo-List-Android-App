@@ -23,7 +23,7 @@ To run the app locally or contribute to its development, please follow the steps
 
 1. Clone the repository:
 ```
-git clone https://github.com/AvishkarWadbudhe/Todo-List-Android-App.git
+git clone [https://github.com/AvishkarWadbudhe/Todo-List-Android-App.git](https://github.com/AvishkarWadbudhe/Todo-List-Android-App.git)
 ```
 2. Open the project in Android Studio:
 - Launch Android Studio and select "Open an existing Android Studio project."
