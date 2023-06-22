@@ -36,7 +36,7 @@ git clone https://github.com/AvishkarWadbudhe/Todo-List-Android-App.git
 ## Contributions
 Contributions to the Todo List Android app are welcome. If you have any suggestions, bug fixes, or additional features to propose, please submit a pull request. Make sure to follow the existing code style and guidelines.
 
-If you encounter any issues or have questions, feel free to open an issue in the repository. We appreciate your feedback and contributions to make the app better.
+If you encounter any issues or have questions, feel free to open an issue in the repository. We appreciate your feedback and contributions to making the app better.
 
 ## License
 The Todo List Android app is released under the [MIT License](https://opensource.org/licenses/MIT). Feel free to modify and distribute the app according to the terms of the license.
