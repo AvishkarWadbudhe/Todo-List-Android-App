@@ -12,7 +12,7 @@ import com.project.todoapp.Model.Task_Repo;
 import java.util.List;
 
 public class Task_viewModel extends AndroidViewModel {
-    private final Task_Repo taskRepo;
+    private  Task_Repo taskRepo;
     private final LiveData<List<DataModel>> taskList;
     private final LiveData<List<DataModel>> completedTaskList;
 
@@ -42,5 +42,9 @@ public class Task_viewModel extends AndroidViewModel {
         return completedTaskList;
     }
 
+public void deleteCompletedTasks()
+{
+    taskRepo.deleteCompletedTasks();
+}
 
 }

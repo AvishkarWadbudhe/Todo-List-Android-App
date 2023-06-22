@@ -1,74 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:orientation="vertical"
     android:background="@color/backgroundColor"
-    android:paddingLeft="20dp"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_back_arrow" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Completed Tasks"
-                android:layout_marginTop="16dp"
-
-                android:textStyle="bold"
-                android:textColor="@color/colorAccent"
-                android:textSize="28sp"
-                tools:ignore="MissingPrefix" />
 
 
-
-        </LinearLayout>
         <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_back_arrow" />
+
+        <ImageView
+            android:id="@+id/btndelete"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_gravity="right|center"
             android:background="@drawable/ic_delete"
+            android:layout_gravity="right|top"
             android:backgroundTint="@color/colorAccent"
-            android:id="@+id/btnHistory"/>
+           />
 
-    </FrameLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Completed Tasks"
+            android:textStyle="italic|bold"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+
+            tools:ignore="MissingPrefix" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <FrameLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/taskRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:background="@color/backgroundColor"
+            android:layout_marginTop="10dp" />
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/taskRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-
-        </FrameLayout>
     </LinearLayout>
 
 </LinearLayout>

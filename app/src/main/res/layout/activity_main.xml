@@ -6,74 +6,82 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="10dp"
-    android:background="@color/backgroundColor"
+  android:background="@color/backgroundColor"
     android:paddingRight="10dp"
     tools:context=".MainActivity">
 
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="80dp"
 
-        <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="15dp">
+
+        <FrameLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundColor"
+
+            >
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/dateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="All tasks"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="28sp"
-                tools:ignore="MissingPrefix" />
-
-
-
-
-        </LinearLayout>
+            android:text="All tasks"
+            android:layout_marginTop="20dp"
+            android:textStyle="italic|bold"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:layout_gravity="bottom"
+            android:paddingLeft="15dp"
+            tools:ignore="MissingPrefix" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_gravity="right|center"
+
+            android:layout_gravity="right"
             android:background="@drawable/ic_history"
             android:id="@+id/btnHistory"/>
-    </FrameLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Incomplete Tasks"
+android:background="@color/backgroundColor"
+        android:textStyle="bold|italic"
+        android:textColor="@android:color/black"
+      />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:background="@color/backgroundColor"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="200dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-        <FrameLayout
+      <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-         >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Incomplete Tasks"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:padding="8dp" />
-
+           android:background="@color/backgroundColor">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewIncomplete"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp" />
+                android:background="@color/backgroundColor"
+                android:layout_marginTop="10dp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/addTaskFloatingBtn"
@@ -88,11 +96,8 @@
                 android:backgroundTint="@color/colorAccent"
                 app:tint="@color/white" />
 
-        </FrameLayout>
-
-
+      </FrameLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

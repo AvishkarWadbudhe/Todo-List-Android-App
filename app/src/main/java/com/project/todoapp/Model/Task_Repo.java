@@ -25,6 +25,12 @@ public void insertData(DataModel dataModel){new InsertTask(task_dao).execute(dat
     public void updateData(DataModel dataModel){new UpdateTask(task_dao).execute(dataModel);}
     public void deleteData(DataModel dataModel){new DeleteTask(task_dao).execute(dataModel);}
 
+    public void deleteCompletedTasks() {
+        new DeleteCompletedTasksTask(task_dao).execute();
+    }
+
+
+
     public LiveData<List<DataModel>> showTask()
     {
         return taskList;
@@ -70,6 +76,24 @@ public void insertData(DataModel dataModel){new InsertTask(task_dao).execute(dat
         @Override
         protected Void doInBackground(DataModel... dataModels) {
             task_dao.deleteTask(dataModels[0]);
+            return null;
+        }
+        public void deleteCompletedTasks() {
+            task_dao.deleteCompletedTasks();
+
+        }
+    }
+    private static class DeleteCompletedTasksTask extends AsyncTask<Void, Void, Void> {
+
+        private final Task_Dao task_dao;
+
+        public DeleteCompletedTasksTask(Task_Dao task_dao) {
+            this.task_dao = task_dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            task_dao.deleteCompletedTasks();
             return null;
         }
     }

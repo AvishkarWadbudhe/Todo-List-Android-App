@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.todoapp.Adapter.Task_History_Adapter;
+import com.project.todoapp.CustomTools.Custom_SnackBar;
 import com.project.todoapp.R;
 import com.project.todoapp.ViewModel.Task_viewModel;
 import com.project.todoapp.databinding.ActivityTaskHistoryBinding;
@@ -41,6 +42,23 @@ public class Task_History extends AppCompatActivity {
     }
     private void setListener() {
         binding.btnBack.setOnClickListener(v -> onBackPressed());
+
+        binding.btndelete.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Task_History.this);
+            builder.setTitle("Clear History")
+                    .setMessage("Are you sure you want to clear the task history?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Delete the completed tasks
+                        taskViewModel.deleteCompletedTasks();
+                        Custom_SnackBar.showSnackbar(Task_History.this, findViewById(android.R.id.content), "Task history cleared");
+                    })
+                    .setNegativeButton("No", (dialog, which) -> {
+                        // Cancel the deletion
+                        dialog.dismiss();
+                    })
+                    .show();
+        });
+
 
     }
     private void setRecycleView()

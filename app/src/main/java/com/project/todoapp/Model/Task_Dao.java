@@ -27,8 +27,11 @@ public interface Task_Dao {
 
     @Query("SELECT * FROM my_tasks WHERE isCompleted=TRUE")
     LiveData<List<DataModel>> showCompletedTask();
-    @Query("DELETE FROM my_tasks")
-    void deleteAllTasks();
+
+
+    @Query("DELETE FROM my_tasks WHERE isCompleted = TRUE")
+    void deleteCompletedTasks();
+
 
 
 }

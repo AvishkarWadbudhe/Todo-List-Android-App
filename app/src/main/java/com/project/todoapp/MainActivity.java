@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertDialog alertDialog;
     private CreateTaskDialogBoxBinding dialogBinding;
-    private String[] options = {"Food", "Study", "Work"};
-
 
 
     @Override
@@ -105,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.RIGHT) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Is Task Completed?")
-                            .setMessage("Did you complete the task?")
+                    builder.setTitle("Task Completion")
+                            .setMessage("Would you like to mark this task as completed?")
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 taskViewModel.update(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
                                 Custom_SnackBar.showSnackbar(MainActivity.this, findViewById(android.R.id.content), "Task completed");
@@ -115,8 +113,17 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                 } else if (direction == ItemTouchHelper.LEFT) {
                     // Delete the task
-                    taskViewModel.delete(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
-                    Custom_SnackBar.showSnackbar(MainActivity.this, findViewById(android.R.id.content), "Task deleted");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Delete Task")
+                            .setMessage("Are you sure you want to delete this task?")
+                            .setPositiveButton("Delete", (dialog, which) -> {
+                                // Delete the task
+                                taskViewModel.delete(tasksAdapter.getTask(viewHolder.getAbsoluteAdapterPosition()));
+                                Custom_SnackBar.showSnackbar(MainActivity.this, findViewById(android.R.id.content), "Task deleted");
+                            })
+                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                            .show();
+
                 }
             }
 
@@ -130,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                         .addSwipeLeftBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.colorRed))
                         .addSwipeLeftActionIcon(R.drawable.ic_delete)
                         .addSwipeLeftLabel("Deleted").setSwipeLeftLabelColor(ContextCompat.getColor(MainActivity.this,R.color.white))
+
+
                         .create()
                         .decorate();
 
@@ -203,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+
     private void showToast(String message) {
         Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
     }
